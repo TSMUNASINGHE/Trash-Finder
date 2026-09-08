@@ -1,0 +1,66 @@
+main{
+  margin-left: 20px;
+  margin-right: 20px;
+}
+body{
+  margin:0px;
+  font-family:Calibri, sans-serif;
+  font-size: 20px;
+}
+form{
+  padding:15px;
+}
+
+button{
+  background-color:#355E3B;
+border: none;
+border-radius:5px;
+color: white;
+padding: 10px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+}
+
+button:hover{
+  background-color:#1A2421;
+}
+.inst ul{
+  margin-bottom: 15px;
+}
+
+
+
+
+
+
+.navbar ul {
+  list-style-type: none;
+  background-color:#355E3B;
+  margin:0px;
+  padding:5px;
+  overflow:hidden;
+}
+
+.navbar a {
+  text-decoration: none;
+  color: white;
+  padding : 15px;
+  display : block;
+  text-align:center;
+
+}
+
+.navbar a:hover {
+background-color:  #1A2421;
+
+}
+
+.navbar li{
+  float:left;
+}
+
+.flex-container{
+  display: flex;
+}

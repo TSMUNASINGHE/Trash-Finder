@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang = "en">
+    <head>
+        <title> Trash Image</title>
+        <link rel = "stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    </head>
+    <body>
+      <nav class = "navbar">
+            <ul>
+            <li><img src="{{ url_for('static', filename='constImg/trashlogo.png') }}" alt= "Logo" width = 50px height = 50px> </li>
+
+
+        </ul>
+    </nav>
+    <br>
+    <form  padding= 15px autocomplete="off" action="/sucess" method="post"enctype="multipart/form-data">
+        <!-- File input restricted to PNG and JPEG -->
+        <input type="file" name="trashpic" id = "trashpic" accept=".png, .jpg, .jpeg" >
+        <!--input type="hidden" name = "number_id" id = "number_id"></input>-->
+        <br><br>
+        <button type="submit" name = "upload" id = "upload" disabled >Upload</button>
+
+        <p> If you have no image please click the button below</p>
+        <button name  = "nopic" value = "1" >No picture available</button>
+    </form>
+    <script>
+        document.getElementById('trashpic').addEventListener('change', (e) => {
+        check = document.querySelector("#upload")
+        trash = document. getElementById("trashpic")
+        console.log(trash.files)
+        if (trash.files.length == 1)
+            {check.disabled = false}
+        else
+        {check.disabled = true}
+        })
+        
+    </script>
+
+</html>
+

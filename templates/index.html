@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel = "stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        <title> Home</title>
+    </head>
+    <body>
+        <link rel = "stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+            <nav class = "navbar">
+            <ul>
+            <li><img src="{{ url_for('static', filename='constImg/trashlogo.png') }}" alt= "Logo" width = 50px height = 50px> </li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/map">Map</a></li>
+
+        </ul>
+         </nav>
+
+       <main>
+            <br>
+            <b>Instructions</b>
+            <ul class = "Inst">
+                <li>This is a community run project. Please be truthful.</li>
+                <li>Click on the map above and go to the page containg the map.</li>
+                <li> Click on the map to choose the location of trash and then click Add Trash Location button to proceed. After clcking this do not go back as it may cause errors</li>
+                <li>If you have an image insert it (jpeg, jpg or png ONLY), if not click the "No picture available" button.</li>
+                <li>If you add an incorrect file type and click upload, the coordinates will not be added.</li>
+                <li>Click "Upload" or "No picture available", or the location will not be added.</li>
+                <li> When you clean up a location just click on the marker and click the "Cleaned" button on the pop up.</li>
+                <li> Clicking this will delete the marker, so only do so if the area is truly clean.</li>
+
+            </ul>
+       </main>
+
+    </body>
+</html>

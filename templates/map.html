@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <base target="_top">
+    <meta charset="utf-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+
+    <title>Map</title>
+
+
+    <link rel = "stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+
+
+</head>
+<body>
+    <nav class = "navbar">
+            <ul>
+            <li><img src="{{ url_for('static', filename='constImg/trashlogo.png') }}" alt= "Logo" width = 50px height = 50px> </li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/map">Map</a></li>
+
+        </ul>
+    </nav>
+
+
+    <style>
+        html, body {
+			height: 100%;
+
+            justify-content: center;
+		}
+		.leaflet-container {
+			height: 800px;
+			width: 800px;
+			max-width: 100%;
+			max-height: 100%;
+            margin: 10px;
+            outline:solid;
+            outline-width: 2px;
+            outline-color: #355E3B;
+            padding: 20px;
+		}
+
+        .button {
+            position: absolute;
+            top: 50%;
+            left: 10px; /* Distance from left side */
+            transform: translateY(-50%);
+        }
+
+
+
+
+
+    </style>
+<div class = flex-container>
+<div id = "map" style="width: 1000px; height: 700px"></div>
+<form  id = "locform" action="/trash" method="post"enctype="multipart/form-data">
+        <input type="hidden" name = "long" id = "long" required></input>
+        <input type = "hidden" name = "lat" id = "lat" required></input>
+
+        <button type="submit" >Add new trash location</button>
+
+    </form>
+</div>
+
+<script>
+    const map = L.map("map").setView([6.898846,79.948685], 17);
+    const tiles = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    }).addTo(map);
+    //defining the icon to appear when adding trash location
+        var AddIcon = L.icon ({
+        iconUrl : 'static/constImg/Trashmarker.png',
+        iconSize:[30,40],
+        iconAnchor : [20, 5],
+        })
+    //}
+    //var customIcon = L.icon(iconOptions);
+    //var markerOptions ={
+    //icon : customIcon
+    //}
+   {% for coor in coor%} var marker = L.marker([{{coor[1]}},{{coor[2]}}],  {icon : AddIcon}).addTo(map);
+    marker.bindPopup("<img src= '{{coor[3]}}' width='100' height='100'>" +"<br>"+"<button id = '{{coor[0]}}' type='clean' class='deltrash'>Cleaned</button>", {
+                maxWidth: 200,
+                closeButton: true,
+                autoClose: true,
+                closeOnClick: true });
+
+   {% endfor %}
+
+   //trying for that deletion
+   map.on('popupopen', function(e){
+        var popup = e.popup.getElement();
+        var buttonpop = popup.querySelector( 'button.deltrash');
+        console.log(buttonpop);
+        if (buttonpop !=null)
+
+            {buttonpop.addEventListener('click', async (event) =>{
+                const buttonId = event.target.id;
+                let text;
+                if (confirm("Are you sure you cleaned the trash?") == true) {
+                    text = "Yes";
+                    try{
+                    const response = await fetch('/clean', {method: 'POST', headers: {"Content-Type": "application/json"},body: JSON.stringify({id : buttonId})});
+                    location.reload()
+                    }
+                    catch(error){
+
+                    console.log("They dont want to delete i guess");
+                    }}
+                 else {
+                    text = "cancel";
+                }
+                console.log(text);
+            })}
+        })
+
+
+
+
+
+
+
+    var singleMarker = null;
+
+    map.on("click", function(e){
+        if (singleMarker) {
+                // Move existing marker
+                singleMarker.setLatLng(e.latlng);
+            } else {
+                // Create new marker
+                singleMarker = L.marker(e.latlng).addTo(map);
+            }
+        var lat=e.latlng.lat;
+        var long = e.latlng.lng;
+
+        document.getElementById("lat").value = lat;
+        document.getElementById("long").value = long;
+
+    })
+
+
+
+        const form = document.getElementById("locform");
+        form.addEventListener("submit", (event) => {
+
+
+        // Validate form fields (basic example)
+        const formData = new FormData(form);
+        const long = formData.get("long")?.trim();
+        const lat = formData.get("lat")?.trim();
+
+        if (!long || !lat) {
+        event.preventDefault();
+        alert("Click on the map to choose coordinates");
+        return;
+        }
+        })
+
+    </script>
+
+</script>
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
